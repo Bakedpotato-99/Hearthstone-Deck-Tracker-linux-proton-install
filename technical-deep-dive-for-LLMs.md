@@ -446,3 +446,6 @@ Be explicit about these gaps rather than assuming universality:
   https://github.com/borisbabic/hearthstone_hdt_linux
 - HDT itself:
   https://github.com/HearthSim/Hearthstone-Deck-Tracker
+
+## 11. LLM used
+ - Claude Sonnet 5, Medium Effort.
