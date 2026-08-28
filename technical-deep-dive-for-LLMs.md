@@ -1,6 +1,6 @@
-# Copy this file to the LLM of your choice. 
+Copy this file to the LLM of your choice. 
 
-#Technical Deep Dive: Hearthstone Deck Tracker + Hearthstone on Linux via Steam Proton
+# Technical Deep Dive: Hearthstone Deck Tracker + Hearthstone on Linux via Steam Proton
 
 This document exists to be fed to an LLM (or read directly) by someone trying to
 reproduce, adapt, or extend this setup on their own Linux system. It documents not
