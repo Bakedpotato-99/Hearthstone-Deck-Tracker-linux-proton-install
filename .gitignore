@@ -1,0 +1,17 @@
+# Editor/IDE
+.vscode/
+*.swp
+*~
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Logs generated while testing locally
+*.log
+hdt_icon_log.txt
+xdgwrapper.log
+
+# Sensitive auth-related files - never commit real tokens/credentials
+hsreplay_oauth*
+*.decrypted
