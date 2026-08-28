@@ -441,7 +441,7 @@ Be explicit about these gaps rather than assuming universality:
 
 ## 10. References
 - This guide (MIT License)
-  https://github.com/ExEdit0r/Hearthstone-Deck-Tracker-linux-proton-install
+  https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install
 - Original Windows/Wine HDT guide (Apache-2.0):
   https://github.com/borisbabic/hearthstone_hdt_linux
 - HDT itself:
