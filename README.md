@@ -17,7 +17,7 @@ You may want to enable "Show gameplay overlay while Hearthstone is in the backgr
 
 ## Step 1. Find the Hearthstone Wine prefix
 
-Start **Battle.net** and **Hearthstone**. Then run the commands below. The first block finds where Hearthstone and Proton live, the second saves that info for future use. Copy each block separately.
+Start **Battle.net** and **Hearthstone** via Steam. Then run the commands below. The first block finds where Hearthstone and Proton live, the second saves that info for future use. Copy each block separately.
 
 ```bash
 PID=$(pgrep -f Hearthstone.exe)  # find the process ID of the running Hearthstone
