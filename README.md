@@ -4,12 +4,10 @@ I managed to make HDT work on Linux Mint 22.3 – Cinnamon 64-bit with Hearthsto
 Overlay works, combat simulation works, automatic update to a new version works. Login to hsreplay.net is also possible.
 
 
-If you run into any problem with the guide, use a different distro, or don't trust the guide, see the **[technical deep dive](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/technical-deep-dive-HDT-Linux.md)**. It contains an in-depth explanation of the setup and is designed to be copied into the LLM of your choice so it can adapt the steps to your system.
+This setup was tested only on Linux Mint. If you run into any problem with the guide, use a different distro, or don't trust the guide, see the **[technical deep dive](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/technical-deep-dive-HDT-Linux.md)**. It contains an in-depth explanation of the setup and is designed to be copied into the LLM of your choice so it can adapt the steps to your system.
 
 Logging in to hsreplay.net requires booting up a Windows machine or a Windows VM. More on how to do that here: https://github.com/borisbabic/hearthstone_hdt_linux
 
-
-This setup was tested only on Linux Mint. If you use another distro, you may need to use an LLM together with the [technical deep dive](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/technical-deep-dive-HDT-Linux.md) to set it up on your system.
 
 ---
 
