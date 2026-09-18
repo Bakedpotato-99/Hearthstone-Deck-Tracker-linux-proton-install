@@ -11,8 +11,8 @@ Logging in to hsreplay.net requires booting up a Windows machine or a Windows VM
 
 You may want to enable "Show gameplay overlay while Hearthstone is in the background" if you encounter problems with HDT overlay responsiveness. 
 
-_Repo contents: README.md (this guide), technical-deep-dive-HDT-Linux.md (LLM reference doc). No scripts are included — all commands are meant to be copy-pasted manually.
-_
+*Repo contents: README.md (this guide), technical-deep-dive-HDT-Linux.md (LLM reference doc). No scripts are included — all commands are meant to be copy-pasted manually.*
+
 ---
 
 ## Step 1. Find the Hearthstone Wine prefix
