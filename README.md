@@ -45,10 +45,11 @@ If you opened a new terminal since Step 1, load the saved paths first:
 source ~/.hdt-env  # load HSPFX and PROTON_WINE saved in Step 1
 ```
 
-If you don't have winetricks yet:
+If you don't have winetricks and/or 7z yet:
 
 ```bash
 sudo apt install winetricks  # install the winetricks helper tool
+sudo apt install p7zip-full # install the 7z extraction tool
 ```
 
 The following steps will install multiple versions of .NET framework. You will need to complete those installs. It will take around 10 minutes: 
