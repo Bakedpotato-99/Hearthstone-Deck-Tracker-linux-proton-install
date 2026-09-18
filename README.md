@@ -9,6 +9,7 @@ This setup was tested only on Linux Mint. If you run into any problem with the g
 Logging in to hsreplay.net requires booting up a Windows machine or a Windows VM. More on how to do that here: https://github.com/borisbabic/hearthstone_hdt_linux
 
 You may want to enable "Show gameplay overlay while Hearthstone is in the background" if you encounter problems with HDT overlay responsiveness. 
+
 ---
 
 ## Step 1. Find the Hearthstone Wine prefix
