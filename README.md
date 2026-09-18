@@ -51,7 +51,7 @@ If you don't have winetricks yet:
 sudo apt install winetricks  # install the winetricks helper tool
 ```
 
-Then:
+The following steps will install multiple versions of .NET framework. You will need to complete those installs. It will take around 10 minutes: 
 
 ```bash
 WINEPREFIX="$HSPFX" winetricks dotnet472  # install .NET Framework 4.7.2 into the Hearthstone prefix
