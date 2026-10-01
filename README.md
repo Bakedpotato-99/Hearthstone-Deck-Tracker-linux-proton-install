@@ -3,13 +3,23 @@
 I managed to make HDT work on Linux Mint 22.3 – Cinnamon 64-bit with Hearthstone Battlegrounds running via Steam Proton.
 Overlay works, combat simulation works, automatic update to a new version works. Login to hsreplay.net is also possible.
 I am only playing Battlegrounds, but I do not see a reason why it should not work on normal HS. 
-This solution works in default Hearhstone Fullscreen mode. 
+This solution works in default Hearthstone Fullscreen mode. 
+This guide is for Hearthstone Running on Steam Proton only. If you are using Lutris, use 
+@iampossiblyatwork complementary guide - https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
 
+**Important** 
 This setup was tested only on Linux Mint. If you run into any problem with the guide, use a different distro, or don't trust the guide, see the **[technical deep dive](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/technical-deep-dive-HDT-Linux.md)**. It contains an in-depth explanation of the setup. Copy this to the LLM of your choice so it can tailor the install to your system.
 
-Logging in to hsreplay.net requires booting up a Windows machine or a Windows VM. More on how to do that here: https://github.com/borisbabic/hearthstone_hdt_linux
+Expect lots of warnings from the terminal, Wine and winetricks during setup. They are normal and can be ignored unless a step fails to complete.
+
+After HDT is installed, first turn on the battle.net, and only then run the HDT. Otherwise HDT may prevent battle.net from lauching. 
+
+Overlay shows but no cards are tracked → restart Hearthstone
 
 You may want to enable "Show gameplay overlay while Hearthstone is in the background" if you encounter problems with HDT overlay responsiveness. 
+
+
+Logging in to hsreplay.net requires booting up a Windows machine or a Windows VM. More on how to do that here: https://github.com/borisbabic/hearthstone_hdt_linux
 
 LLM Disclamer. While all the steps were done by me personally on two Mint installs, Claude Opus 5.5 was used to troubleshoot,structure the guide and write the technical deep dive. 
 
@@ -71,15 +81,21 @@ WINEPREFIX="$HSPFX" "$PROTON_WINE" winecfg /v win10  # set the prefix back to Wi
 ```
 
 This will download ~500MB of Windows 7 files to extract msdelta.dll. Wine uses empty placeholder and it breaks HDT.
+
 ```bash
 WINEPREFIX="$HSPFX" winetricks msdelta  # install msdelta, needed for HDT's auto-updater
 ```
 
+Test if msdelta was installed. The number should be around 450000.
+
+```bash
+stat -c%s "$HSPFX/drive_c/windows/system32/msdelta.dll"  # print the size of msdelta.dll in bytes
+```
 ---
 
 ## Step 3. Download and unpack HDT
 
-Download the latest HDT from https://hsdecktracker.net/download/ and keep `HDT-Installer.exe` in your **Downloads** folder.
+Download the latest HDT from https://hsdecktracker.net/download/ and keep `HDT-Installer.exe` in your **Downloads** folder. Do not use .zip from the official HDT github page. It is not being updated, and does not contain current/future content. 
 
 Then run the commands one by one **in the same terminal** (later commands use the `HDTVER` variable set by the second one):
 
@@ -168,3 +184,5 @@ HDT: https://github.com/HearthSim/Hearthstone-Deck-Tracker
 HDT's actual release channel: https://github.com/HearthSim/HDT-Releases
 
 OAuth token tool (Apache-2.0): https://github.com/borisbabic/hearthstone_hdt_linux
+
+Lutris write-up by @iampossiblyatwork: https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
