@@ -5,7 +5,7 @@ Overlay works, combat simulation works, automatic update to a new version works.
 I am only playing Battlegrounds, but I do not see a reason why it should not work on normal HS. 
 This solution works in default Hearthstone Fullscreen mode. 
 This guide is for Hearthstone Running on Steam Proton only. If you are using Lutris, use 
-@iampossiblyatwork complementary guide - https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
+`[@iampossiblyatwork](https://github.com/iampossiblyatwork)` complementary guide.
 
 **Important**
 
