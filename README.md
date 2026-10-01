@@ -54,7 +54,7 @@ sudo apt install winetricks  # install the winetricks helper tool
 sudo apt install p7zip-full # install the 7z extraction tool
 ```
 
-The following steps will install multiple versions of .NET framework. You will need to complete those installs. It will take around 10 minutes: 
+The following steps will install multiple versions of .NET framework. You will need to click though those installs. It will take around 10 minutes: 
 
 ```bash
 WINEPREFIX="$HSPFX" winetricks dotnet472  # install .NET Framework 4.7.2 into the Hearthstone prefix
