@@ -160,3 +160,7 @@ cp "$LARGEST_ICON" ~/.local/share/icons/hdt.png  # save it as hdt.png
 rm -f ~/.local/share/icons/HearthstoneDeckTracker_*.png  # delete the leftover sizes
 sed -i "s|^Icon=.*|Icon=$HOME/.local/share/icons/hdt.png|" ~/Desktop/Hearthstone_Deck_Tracker.desktop  # point the desktop shortcut at the new icon
 ```
+References:
+HDT: https://github.com/HearthSim/Hearthstone-Deck-Tracker
+HDT's actual release channel: https://github.com/HearthSim/HDT-Releases
+OAuth token tool (Apache-2.0): https://github.com/borisbabic/hearthstone_hdt_linux
