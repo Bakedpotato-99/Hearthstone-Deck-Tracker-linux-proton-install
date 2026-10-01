@@ -4,8 +4,7 @@ I managed to make HDT work on Linux Mint 22.3 – Cinnamon 64-bit with Hearthsto
 Overlay works, combat simulation works, automatic update to a new version works. Login to hsreplay.net is also possible.
 I am only playing Battlegrounds, but I do not see a reason why it should not work on normal HS. 
 This solution works in default Hearthstone Fullscreen mode. 
-This guide is for Hearthstone Running on Steam Proton only. If you are using Lutris, use 
-`[@iampossiblyatwork](https://github.com/iampossiblyatwork)` complementary guide.
+This guide is for Hearthstone running on Steam Proton only. If you are using Lutris, see the [complementary Lutris guide](https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f) by [@iampossiblyatwork](https://github.com/iampossiblyatwork).
 
 **Important**
 
