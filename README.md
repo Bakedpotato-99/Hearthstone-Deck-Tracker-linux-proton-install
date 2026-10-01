@@ -161,6 +161,7 @@ rm -f ~/.local/share/icons/HearthstoneDeckTracker_*.png  # delete the leftover s
 sed -i "s|^Icon=.*|Icon=$HOME/.local/share/icons/hdt.png|" ~/Desktop/Hearthstone_Deck_Tracker.desktop  # point the desktop shortcut at the new icon
 ```
 References:
+
 HDT: https://github.com/HearthSim/Hearthstone-Deck-Tracker
 
 HDT's actual release channel: https://github.com/HearthSim/HDT-Releases
