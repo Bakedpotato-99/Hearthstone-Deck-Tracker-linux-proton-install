@@ -81,13 +81,13 @@ The install breaks a setting. Fix it:
 WINEPREFIX="$HSPFX" "$PROTON_WINE" winecfg /v win10  # set the prefix back to Windows 10 mode
 ```
 
-This will download ~500MB of Windows 7 files to extract msdelta.dll. Wine uses empty placeholder and it breaks HDT.
+This will download ~500 MB of Windows 7 files to extract the real msdelta.dll. Wine only ships a non-working placeholder, which breaks HDT's auto-updater.
 
 ```bash
 WINEPREFIX="$HSPFX" winetricks msdelta  # install msdelta, needed for HDT's auto-updater
 ```
 
-Test if msdelta was installed. The number should be around 450000.
+Test if msdelta was installed. The number should be around 450000. If it is much smaller, run WINEPREFIX="$HSPFX" winetricks -f msdelta and check again.
 
 ```bash
 stat -c%s "$HSPFX/drive_c/windows/system32/msdelta.dll"  # print the size of msdelta.dll in bytes
@@ -178,6 +178,7 @@ cp "$LARGEST_ICON" ~/.local/share/icons/hdt.png  # save it as hdt.png
 rm -f ~/.local/share/icons/HearthstoneDeckTracker_*.png  # delete the leftover sizes
 sed -i "s|^Icon=.*|Icon=$HOME/.local/share/icons/hdt.png|" ~/Desktop/Hearthstone_Deck_Tracker.desktop  # point the desktop shortcut at the new icon
 ```
+---
 References:
 
 HDT: https://github.com/HearthSim/Hearthstone-Deck-Tracker
