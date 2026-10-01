@@ -16,7 +16,7 @@ Expect lots of warnings from the terminal, Wine and winetricks during setup. The
 
 After HDT is installed, first turn on the battle.net, and only then run the HDT. Otherwise HDT may prevent battle.net from lauching. 
 
-Overlay shows but no cards are tracked → restart Hearthstone
+Overlay shows but no cards are tracked - restart Hearthstone
 
 You may want to enable "Show gameplay overlay while Hearthstone is in the background" if you encounter problems with HDT overlay responsiveness. 
 
