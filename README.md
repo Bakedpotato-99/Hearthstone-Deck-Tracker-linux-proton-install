@@ -1,4 +1,4 @@
-# Hearthstone Deck Tracker on Linux (Steam Proton)
+# Hearthstone Deck Tracker on Linux (Steam Proton and Lutris)
 
 I managed to make HDT work on Linux Mint 22.3 – Cinnamon 64-bit with Hearthstone Battlegrounds running via Steam Proton.
 Overlay works, combat simulation works, automatic update to a new version works. Login to hsreplay.net is also possible.
