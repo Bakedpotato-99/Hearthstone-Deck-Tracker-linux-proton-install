@@ -8,7 +8,7 @@ This solution works in default Hearthstone Fullscreen mode.
 
 This guide is for Hearthstone running on **Steam Proton** only. If you are using Lutris, see the [complementary Lutris guide](https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f) by [@iampossiblyatwork](https://github.com/iampossiblyatwork).
 
-**Important**
+**Important:**
 
 This setup was tested only on Linux Mint. If you run into any problem with the guide, use a different distro, or don't trust the guide, see the **[technical deep dive](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/technical-deep-dive-HDT-Linux.md)**. It contains an in-depth explanation of the setup. Copy this to the LLM of your choice so it can tailor the install to your system.
 
