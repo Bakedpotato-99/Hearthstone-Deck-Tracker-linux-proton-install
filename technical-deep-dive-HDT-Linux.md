@@ -1,13 +1,22 @@
 # Hearthstone Deck Tracker on Linux via Steam Proton — Technical Reference
 
 **Purpose:** paste this into an LLM if you are following the companion guide on a
-distro, desktop environment, or Steam setup other than the one it was tested on.
+distro, desktop environment, or Steam setup other than the one it was tested on,
+or if you are adapting it to Lutris (see Section 14).
 It states verified root causes and fixes so the assistant can adapt the
 procedure instead of guessing.
 
 **Last verified:** September 2026 — HDT 1.57.10, Proton Experimental
 (`experimental-11.0-20260910b`), Linux Mint 22.3 Cinnamon on X11,
 winetricks 20240105, system wine 9.0.
+
+**Community report (not re-verified by the maintainer):** September 2026 —
+HDT 1.57.12 on Lutris 0.5.14 with Wine 11.11-staging (Kron4ek, traditional
+multilib), Linux Mint 22.3. Contributed by
+[@iampossiblyatwork](https://github.com/iampossiblyatwork) in
+[issue #1](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/issues/1) —
+thank you. Their findings are merged into Sections 4.2, 5, 8, 9, 11, 12, 13
+and 14.
 
 ---
 
@@ -27,6 +36,9 @@ winetricks 20240105, system wine 9.0.
 5. **Wine emits large volumes of harmless noise.** See Section 8. Do not treat
    `fixme:`, `err:ole:`, `err:module:import_dll`, or Fontconfig messages as the
    cause of a problem unless nothing else explains it.
+6. **If the user is on Lutris (or plain Wine) instead of Steam,** read
+   Section 14 first. Several Proton-specific rules here (`steamuser`, how the
+   prefix is found, not setting `WINE=`) do not carry over unchanged.
 
 ---
 
@@ -83,6 +95,8 @@ Notes for adapting this:
   `wine-preloader` inside the Proton directory tree.
 - `STEAM_COMPAT_TOOL_PATHS` and `STEAM_COMPAT_DATA_PATH` are present and are
   viable alternative sources if `readlink` fails on the user's setup.
+- On **Lutris**, read the prefix and runner from the game's YAML config
+  instead — see Section 14.2.
 
 Persist them so the launcher can reuse them:
 
@@ -107,6 +121,10 @@ the real Linux username in the same prefix. Using the wrong one produces
 ```bash
 find "<prefix>/drive_c/users" -iname "HearthstoneDeckTracker" -type d
 ```
+
+This trap is **Steam-only**. Under Lutris or plain Wine, the game itself runs
+under the Linux username, so that is the correct profile — `steamuser`
+paths elsewhere in this document must be substituted accordingly.
 
 ### 3.3 Working directory
 
@@ -158,6 +176,13 @@ reproducibility** — it was the difference between a working and a failing
 install on two separate attempts.
 
 Do **not** add `-f`. Do **not** set `WINE=` on these commands.
+
+The `WINE=` rule applies to the **Proton path only**. There, winetricks runs
+with system wine (9.0) against a prefix that Proton (Wine 11-based) runs, and
+this mix was verified working. On **Lutris**, the reverse applies: winetricks
+must be pointed at the Lutris runner via `WINE` / `WINESERVER` / `PATH`,
+otherwise it uses the distro's Wine and you end up with two Wine versions
+working on one prefix (Section 14.2).
 
 ### 4.3 Nothing may be running in the prefix
 
@@ -242,6 +267,13 @@ around the updater does not help.
 The v1.55.6 portable build never hit this because it was compiled **without**
 the `SQUIRREL` define, so that code path did not exist in it.
 
+**The stub does not always crash.** In the community Lutris report (Wine
+11.11-staging), the prefix still had the stub, yet HDT did not abort —
+Squirrel instead downloaded the full ~22 MB `.nupkg` rather than a delta.
+Why one setup crashes and another silently falls back is not known. Treat a
+full-package download for a routine update as a hint (not proof — Squirrel
+can also fall back for other reasons) that `msdelta` is still the stub.
+
 ### 5.2 Fix
 
 ```bash
@@ -252,13 +284,47 @@ This extracts the genuine Microsoft `msdelta.dll` from the Windows 7 SP1
 servicing stack and sets a native DLL override. Downloads roughly 500 MB on
 first use; cached afterwards.
 
-### 5.3 Verifying it — check the size, not existence
+Do not skip this verb because `msdelta.dll` is already present in the
+prefix — it always is (Section 5.3).
 
-Wine ships a **121-byte stub at the same path**. An `ls` existence check gives
-a false pass. The real DLL is roughly **450,000 bytes**:
+### 5.3 Verifying it — existence proves nothing
+
+Wine always places its own builtin stub `msdelta.dll` in the prefix, so an
+existence check gives a false pass. What the stub looks like **depends on the
+Wine build**:
+
+- Proton Experimental 11.0 (reference setup): a **121-byte** placeholder.
+- Wine 11.11-staging (Kron4ek, community report): a full copy of the runner's
+  builtin DLL, in both `system32` and `syswow64`, with an MD5 **identical** to
+  the runner's builtin. A small-size check would not catch this.
+
+So do not rely on one fixed stub size. The genuine Microsoft DLL is roughly
+**450,000 bytes**. Check both directories:
 
 ```bash
-ls -l "$HSPFX/drive_c/windows/system32/msdelta.dll"
+ls -l "$HSPFX/drive_c/windows/system32/msdelta.dll" "$HSPFX/drive_c/windows/syswow64/msdelta.dll"  # show size of both copies
+```
+
+Then compare against the runner's own builtin (method from the community
+report; on Proton, `RUNNER` is the Proton `files` directory — the exact
+location of the builtin inside Proton has not been re-verified here, hence
+`find`):
+
+```bash
+RUNNER="${PROTON_WINE%/bin/wine}"  # Proton: strip /bin/wine to get the files dir; on Lutris set it to the runner dir
+BUILTIN=$(find "$RUNNER" -path '*x86_64-windows*' -iname msdelta.dll | head -1)  # locate the runner's builtin 64-bit msdelta
+cmp -s "$BUILTIN" "$HSPFX/drive_c/windows/system32/msdelta.dll" \
+  && echo "still the builtin stub" \
+  || echo "differs from builtin"  # identical bytes = winetricks msdelta has not taken effect
+```
+
+"Differs from builtin" alone is not a pass on Proton, because the 121-byte
+placeholder also differs from the builtin. Pass = **roughly 450 KB and not
+identical to the builtin**. The DLL override that the verb sets should also be
+present:
+
+```bash
+grep -i '"msdelta"' "$HSPFX/user.reg"  # should show a native override for msdelta
 ```
 
 ### 5.4 Side effect
@@ -422,7 +488,13 @@ These appear constantly and are not causes of failure:
 - `err:crypt:check_and_store_certs ... CERT_FIRST_USER_PROP_ID property absent`
 - `err:combase:RoGetActivationFactory ... AsyncCausalityTracer`
 - `warning: You are using a 64-bit WINEPREFIX...`
-- `warning: You appear to be using Wine's new wow64 mode...`
+- `warning: You appear to be using Wine's new wow64 mode...` — on Wine 11
+  this is a **false positive** in winetricks 20240105: Wine 11 merged `wine`
+  and `wine64` into one binary and the detection trips on that. To check
+  whether a runner really has a 32-bit loader, look for
+  `$RUNNER/lib/wine/i386-unix/ntdll.so`. This matters for any route that
+  runs `HDT-Installer.exe` itself (a 32-bit PE), e.g. the fresh-prefix route
+  in Section 9; the 7z-extraction route in the guide does not run it.
 
 ---
 
@@ -430,11 +502,15 @@ These appear constantly and are not causes of failure:
 
 Each was tested on the working setup. Suggesting them wastes the user's time.
 
-- **Lutris and Bottles** — both block running Battle.net and HDT concurrently
-  in the same prefix. Root cause never isolated; the GUI-wrapper path was
-  abandoned. (A *manual* shared Wine prefix, launched directly from two
-  terminals, does work — but was noticeably choppier in gameplay than
-  attaching to Steam's prefix.)
+- **Bottles** — blocked running Battle.net and HDT concurrently in the same
+  prefix. Root cause never isolated; the GUI-wrapper path was abandoned.
+  (A *manual* shared Wine prefix, launched directly from two terminals, does
+  work — but was noticeably choppier in gameplay than attaching to Steam's
+  prefix.)
+- **Lutris — no longer ruled out.** The maintainer's own attempt hit the same
+  concurrency block as Bottles (root cause never isolated), but a community
+  report has HDT working and tracking on Lutris 0.5.14 + Wine 11.11-staging.
+  Treat Lutris as a valid, community-tested route; see Section 14.
 - **Running `HDT-Installer.exe` against the Steam-managed prefix** — crashes
   reliably. It **does** run to completion in a fresh, manually created prefix
   (`wineboot --init` + dependencies), which is a viable alternative route to
@@ -450,10 +526,20 @@ Each was tested on the working setup. Suggesting them wastes the user's time.
   protontricks works on the user's machine, it is a valid substitute.)
 - **`-force-d3d9` or forcing a renderer** — never needed; overlay renders
   without it.
-- **`log.config` / enabling verbose Hearthstone logging** — never needed;
-  detection worked automatically once HDT ran in the same prefix.
+- **Manually editing `log.config` / enabling verbose Hearthstone logging** —
+  never needed; HDT writes `log.config` itself, and detection worked
+  automatically once HDT ran in the same prefix. **Caveat:** Hearthstone reads
+  `log.config` only at startup, so if the game was already running when HDT
+  first wrote it, the game must be restarted once (Sections 12 and 13).
 - **The HDT portable zip from the source repo** — permanently discontinued as
-  of v1.56.0, capped at v1.55.6.
+  of v1.56.0, capped at v1.55.6. The two GitHub repos are easy to confuse:
+  `HearthSim/Hearthstone-Deck-Tracker` is the **source** repo (portable zip,
+  no `Update.exe`); `HearthSim/HDT-Releases` is the **distribution** repo
+  with the installer (v1.55.6 vs v1.57.12 as of September 2026). Anyone on
+  the zip gets HDT's "can no longer update itself" prompt and silently stops
+  receiving new card sets. Use the installer from hsdecktracker.net. The
+  Lutris "Direct Extract" installer is pinned to **v1.48.3** and leaves users
+  in this same non-updating state.
 - **`WINE_LAYERED_OVERLAY_ALPHA` / `WINE_LAYERED_OVERLAY_SHAPE`** — these
   appeared in AI-generated research at the start of this project and do not
   appear to be real Wine or DXVK variables. The overlay rendered correctly
@@ -502,6 +588,8 @@ source or an authoritative log over inferring causation from trace proximity.
   versions will differ. The `msdelta` verb in particular requires a
   sufficiently recent winetricks; verify with
   `winetricks list-all | grep -c msdelta` (must return ≥ 1).
+- **Lutris and Wine 11.x runners** — community-tested only (Section 14), not
+  verified by the maintainer.
 
 ---
 
@@ -528,11 +616,86 @@ required — see Section 3.3.
 Battle.net while HDT is already running can prevent Battle.net from starting
 correctly. Not root-caused; simply avoid it.
 
+**First launch after a fresh install:** with this order, HDT writes
+`log.config` while Hearthstone is already running, and Hearthstone only reads
+it at startup. Restart Hearthstone once after HDT's first launch, otherwise
+the first session may render the overlay but track nothing (Section 13).
+
 ---
 
-## 13. References
+## 13. Verifying HDT is tracking, not just rendering
+
+WPF under Wine can draw a correct-looking HDT window and overlay while
+tracking nothing. Check files instead of trusting the UI (from the community
+report). On Steam/Proton the profile is `steamuser` (Section 3.2); on Lutris
+or plain Wine it is the Linux username.
+
+- `drive_c/users/<profile>/AppData/Local/Blizzard/Hearthstone/log.config`
+  exists and has a `[Power]` section with `Verbose=True`.
+- `drive_c/users/<profile>/AppData/Roaming/HearthstoneDeckTracker/config.xml`
+  has the correct `<HearthstoneDirectory>`.
+- If `log.config` was first written while Hearthstone was running, restart
+  Hearthstone — it reads the file only at startup.
+
+---
+
+## 14. Lutris — context for adapting this setup
+
+Not verified by the maintainer. Everything here comes from the community
+report by [@iampossiblyatwork](https://github.com/iampossiblyatwork) in
+[issue #1](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/issues/1),
+except where marked as an inference. Their full Lutris write-up:
+https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
+
+### 14.1 Reported environment
+
+Linux Mint 22.3, Lutris 0.5.14, Wine 11.11-staging (Kron4ek, traditional
+multilib), HDT 1.57.12, Hearthstone via Battle.net in Lutris.
+
+### 14.2 Finding the prefix and runner
+
+Section 3.1's `/proc/<pid>/environ` trick is Steam-specific. On Lutris, read
+both values from the game's YAML:
+
+```bash
+grep -E 'prefix|version' ~/.config/lutris/games/*hearthstone*.yml  # print the game's prefix path and Wine runner version
+```
+
+Then point winetricks at that runner by exporting `WINE`, `WINESERVER` and
+`PATH` to the runner's binaries before any winetricks call. Otherwise plain
+`winetricks` uses the distro's Wine and you end up with two Wine versions
+working on one prefix. (This is the opposite of the Proton rule in Section
+4.2.)
+
+### 14.3 Differences from the Proton path
+
+- **No `steamuser`.** AppData lives under the Linux username (Section 3.2).
+- **Wine 11 runners need a symlink for Lutris 0.5.14:** `bin/wine64 -> wine`
+  in the runner directory, or Lutris will not use the runner (Wine 11 merged
+  `wine64` into `wine`).
+- **winetricks wow64 warning** on Wine 11 is a false positive — see Section 8
+  for how to check for a real 32-bit loader.
+- **msdelta stub** on this runner is a byte-identical copy of the builtin, so
+  use the `cmp` method in Section 5.3, not a size threshold.
+- **Do not use the Lutris "Direct Extract" HDT installer** — pinned to
+  v1.48.3, cannot self-update (Section 9).
+- **`WINEFSYNC` (inference, untested on Lutris):** the Section 6 rule still
+  applies — HDT must use the same sync method as the game. Lutris sets
+  esync/fsync per game in its runner options, so compare both processes with
+  the command in Section 6.6 rather than assuming `WINEFSYNC=1`.
+- **HSReplay login (inference, untested on Lutris):** there is no Steam
+  sandbox, so per Section 7.3 normal login may work and should be tried
+  before the token transfer.
+
+---
+
+## 15. References
 
 - HDT: https://github.com/HearthSim/Hearthstone-Deck-Tracker
 - HDT's actual release channel: https://github.com/HearthSim/HDT-Releases
 - OAuth token tool (Apache-2.0):
   https://github.com/borisbabic/hearthstone_hdt_linux
+- Community Lutris notes (issue #1):
+  https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/issues/1
+- Lutris write-up by @iampossiblyatwork:
+  https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
