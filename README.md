@@ -70,6 +70,7 @@ The install breaks a setting. Fix it:
 WINEPREFIX="$HSPFX" "$PROTON_WINE" winecfg /v win10  # set the prefix back to Windows 10 mode
 ```
 
+This will download ~500MB of Windows 7 files to extract msdelta.dll. Wine uses empty placeholder and it breaks HDT.
 ```bash
 WINEPREFIX="$HSPFX" winetricks msdelta  # install msdelta, needed for HDT's auto-updater
 ```
