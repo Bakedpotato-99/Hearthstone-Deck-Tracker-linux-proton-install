@@ -39,7 +39,7 @@ After that, **close Hearthstone, Battle.net and Steam**.
 
 ## Step 2. Install dependencies
 
-Make sure **Steam, Battle.net and Hearthstone are closed**. Run the commands one by one. This installs several .NET versions and will take a while.
+Make sure **Steam, Battle.net and Hearthstone are closed**. Run the commands one by one. This installs several .NET versions and ~500MB Windows 7 package to extract msdelta.dll. This will take around 15 minutes.
 
 If you opened a new terminal since Step 1, load the saved paths first:
 
