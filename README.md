@@ -162,5 +162,7 @@ sed -i "s|^Icon=.*|Icon=$HOME/.local/share/icons/hdt.png|" ~/Desktop/Hearthstone
 ```
 References:
 HDT: https://github.com/HearthSim/Hearthstone-Deck-Tracker
+
 HDT's actual release channel: https://github.com/HearthSim/HDT-Releases
+
 OAuth token tool (Apache-2.0): https://github.com/borisbabic/hearthstone_hdt_linux
