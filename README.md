@@ -6,7 +6,7 @@ Both BG and HS work.
 
 This solution works in default Hearthstone Fullscreen mode. 
 
-This guide is for Hearthstone running on **Steam Proton** only. If you are using Lutris, see the [complementary Lutris guide](https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f) by [@iampossiblyatwork](https://github.com/iampossiblyatwork).
+This guide is for Hearthstone running on **Steam Proton** only. If you are using Lutris, see the [Lutris guide](LUTRIS.md) by [@iampossiblyatwork](https://github.com/iampossiblyatwork).
 
 **Important:**
 
@@ -188,4 +188,4 @@ HDT's actual release channel: https://github.com/HearthSim/HDT-Releases
 
 OAuth token tool (Apache-2.0): https://github.com/borisbabic/hearthstone_hdt_linux
 
-Lutris write-up by @iampossiblyatwork: https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
+Lutris guide by @iampossiblyatwork: [LUTRIS.md](LUTRIS.md)
