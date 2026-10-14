@@ -69,29 +69,34 @@ sudo apt install p7zip-full # install the 7z extraction tool
 The following steps will install multiple versions of .NET framework. You will need to click though those installs. It will take around 10 minutes: 
 
 ```bash
-WINEPREFIX="$HSPFX" winetricks dotnet472  # install .NET Framework 4.7.2 into the Hearthstone prefix
+WINEPREFIX="$HSPFX" winetricks dotnet472  
+# install .NET Framework 4.7.2 into the Hearthstone prefix
 ```
 
 ```bash
-WINEPREFIX="$HSPFX" winetricks corefonts dotnet48  # install Microsoft core fonts and .NET Framework 4.8
+WINEPREFIX="$HSPFX" winetricks corefonts dotnet48  
+# install Microsoft core fonts and .NET Framework 4.8
 ```
 
 The install breaks a setting. Fix it:
 
 ```bash
-WINEPREFIX="$HSPFX" "$PROTON_WINE" winecfg /v win10  # set the prefix back to Windows 10 mode
+WINEPREFIX="$HSPFX" "$PROTON_WINE" winecfg /v win10  
+# set the prefix back to Windows 10 mode
 ```
 
 This will download ~500 MB of Windows 7 files to extract the real msdelta.dll. Wine only ships a non-working placeholder, which breaks HDT's auto-updater.
 
 ```bash
-WINEPREFIX="$HSPFX" winetricks msdelta  # install msdelta, needed for HDT's auto-updater
+WINEPREFIX="$HSPFX" winetricks msdelta  
+# install msdelta, needed for HDT's auto-updater
 ```
 
 Test if msdelta was installed. The number should be around 450000. If it is much smaller, run WINEPREFIX="$HSPFX" winetricks -f msdelta and check again.
 
 ```bash
-stat -c%s "$HSPFX/drive_c/windows/system32/msdelta.dll"  # print the size of msdelta.dll in bytes
+stat -c%s "$HSPFX/drive_c/windows/system32/msdelta.dll"  
+# print the size of msdelta.dll in bytes
 ```
 ---
 
@@ -107,19 +112,23 @@ cd ~/Downloads && rm -rf HDT-res && 7z x -y -oHDT-res HDT-Installer.exe | tail -
 ```
 
 ```bash
-HDTVER=$(ls ~/Downloads/HDT-res/*-full.nupkg | sed -E 's/.*HearthstoneDeckTracker-(.+)-full\.nupkg/\1/'); echo "$HDTVER"  # detect the HDT version number from the package name
+HDTVER=$(ls ~/Downloads/HDT-res/*-full.nupkg | sed -E 's/.*HearthstoneDeckTracker-(.+)-full\.nupkg/\1/'); echo "$HDTVER"  
+# detect the HDT version number from the package name
 ```
 
 ```bash
-rm -rf ~/Games/HDT && mkdir -p ~/Games/HDT/packages ~/Games/HDT/app-$HDTVER && cp ~/Downloads/HDT-res/*-full.nupkg ~/Downloads/HDT-res/RELEASES ~/Games/HDT/packages/ && cp ~/Downloads/HDT-res/Update.exe ~/Games/HDT/  # create the HDT folder layout and copy the package, release list and updater
+rm -rf ~/Games/HDT && mkdir -p ~/Games/HDT/packages ~/Games/HDT/app-$HDTVER && cp ~/Downloads/HDT-res/*-full.nupkg ~/Downloads/HDT-res/RELEASES ~/Games/HDT/packages/ && cp ~/Downloads/HDT-res/Update.exe ~/Games/HDT/  
+# create the HDT folder layout and copy the package, release list and updater
 ```
 
 ```bash
-rm -rf ~/Downloads/HDT-app && unzip -q ~/Games/HDT/packages/*.nupkg 'lib/*' -d ~/Downloads/HDT-app && mv ~/Downloads/HDT-app/lib/net472/* ~/Games/HDT/app-$HDTVER/  # unpack the HDT program files into the versioned app folder
+rm -rf ~/Downloads/HDT-app && unzip -q ~/Games/HDT/packages/*.nupkg 'lib/*' -d ~/Downloads/HDT-app && mv ~/Downloads/HDT-app/lib/net472/* ~/Games/HDT/app-$HDTVER/  
+# unpack the HDT program files into the versioned app folder
 ```
 
 ```bash
-cp ~/Games/HDT/app-$HDTVER/HearthstoneDeckTracker_ExecutionStub.exe ~/Games/HDT/HearthstoneDeckTracker.exe  # place the launcher stub that always starts the newest installed version
+cp ~/Games/HDT/app-$HDTVER/HearthstoneDeckTracker_ExecutionStub.exe ~/Games/HDT/HearthstoneDeckTracker.exe  
+# place the launcher stub that always starts the newest installed version
 ```
 
 ---
