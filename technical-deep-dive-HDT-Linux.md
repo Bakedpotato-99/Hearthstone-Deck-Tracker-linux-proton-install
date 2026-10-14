@@ -15,7 +15,7 @@ HDT 1.57.12 on Lutris 0.5.14 with Wine 11.11-staging (Kron4ek, traditional
 multilib), Linux Mint 22.3. Contributed by
 [@iampossiblyatwork](https://github.com/iampossiblyatwork) in
 [issue #1](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/issues/1)
-and in their [Lutris write-up](https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f) —
+and in their [Lutris guide](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/LUTRIS.md) —
 thank you. Their findings are merged into Sections 4, 5, 8, 9, 11, 12, 13
 and 14.
 
@@ -715,10 +715,10 @@ or plain Wine it is the Linux username.
 Not verified by the maintainer. Everything here comes from
 [@iampossiblyatwork](https://github.com/iampossiblyatwork)'s
 [issue #1](https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/issues/1)
-and their full Lutris write-up
-(https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f),
+and their full Lutris guide
+(https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/LUTRIS.md),
 except where marked as an inference. For step-by-step Lutris instructions,
-send the user to the write-up; this section is context for adapting the setup.
+send the user to LUTRIS.md; this section is context for adapting the setup.
 
 ### 14.1 Reported environment
 
@@ -828,5 +828,5 @@ Lutris-specific log noise, safe to ignore:
   https://github.com/borisbabic/hearthstone_hdt_linux
 - Community Lutris notes (issue #1):
   https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/issues/1
-- Lutris write-up by @iampossiblyatwork:
-  https://gist.github.com/iampossiblyatwork/845c33762463e54333257ed21c78846f
+- Lutris guide by @iampossiblyatwork (LUTRIS.md):
+  https://github.com/Bakedpotato-99/Hearthstone-Deck-Tracker-linux-proton-install/blob/main/LUTRIS.md
