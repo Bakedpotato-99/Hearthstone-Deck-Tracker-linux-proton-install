@@ -102,7 +102,8 @@ Download the latest HDT from https://hsdecktracker.net/download/ and keep `HDT-I
 Then run the commands one by one **in the same terminal** (later commands use the `HDTVER` variable set by the second one):
 
 ```bash
-cd ~/Downloads && rm -rf HDT-res && 7z x -y -oHDT-res HDT-Installer.exe | tail -5  # extract the installer's contents into ~/Downloads/HDT-res
+cd ~/Downloads && rm -rf HDT-res && 7z x -y -oHDT-res HDT-Installer.exe | tail -5  
+# extract the installer's contents into ~/Downloads/HDT-res
 ```
 
 ```bash
