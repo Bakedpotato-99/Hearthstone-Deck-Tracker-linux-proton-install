@@ -25,8 +25,7 @@ Logging in to hsreplay.net requires booting up a Windows machine or a Windows VM
 
 LLM Disclamer. While all the steps were done by me personally on two Mint installs, Claude Opus 5.5 was used to troubleshoot,structure the guide and write the technical deep dive. 
 
-*Repo contents: README.md (this guide), technical-deep-dive-HDT-Linux.md (LLM reference doc). No scripts are included — all commands are meant to be copy-pasted manually.*
-
+*Repo contents: README.md (this guide, Steam Proton), LUTRIS.md (Lutris variant, contributed by @iampossiblyatwork), technical-deep-dive-HDT-Linux.md (LLM reference doc). No scripts are included — all commands are meant to be copy-pasted manually.*
 ---
 
 ## Step 1. Find the Hearthstone Wine prefix
